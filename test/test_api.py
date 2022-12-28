@@ -11,12 +11,12 @@ class MyTestCase(unittest.TestCase):
         lux = 1
         state = 'closed'
         temperature = 19.9
-        name = 'kitchen'
+        sensor_id = 'kitchen'
 
-        with boddle(query={'lux': lux, 'state': state, 'temp': str(temperature)}):
-            sensor = Sensor(**sensor_update(name))
+        with boddle(query={'lux': lux, 'state': state, 'temp': str(temperature), 'id': sensor_id}):
+            sensor = Sensor(**sensor_update())
             self.assertIsNotNone(sensor)
-            self.assertEqual(sensor.name, name)
+            self.assertEqual(sensor.name, sensor_id)
             self.assertEqual(sensor.lux, lux)
             self.assertEqual(sensor.state, state)
             self.assertEqual(sensor.temperature, temperature)

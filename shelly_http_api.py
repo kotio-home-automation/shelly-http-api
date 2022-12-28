@@ -4,6 +4,8 @@ from bottle import route, request, run, response
 from dataclasses import asdict
 import json
 import logging
+
+from sensor.id_mapping import IDMapping
 from sensor.shelly import Sensor, Shelly
 
 
@@ -14,15 +16,19 @@ log_handler = logging.StreamHandler(sys.stdout)
 log_format = logging.Formatter(fmt='%(asctime)s %(levelname)-8s %(message)s')
 log_handler.setFormatter(log_format)
 logger.addHandler(log_handler)
-global shelly
 shelly = Shelly('sensors.json')
+id_mapping = IDMapping('id_mappings.json')
 
 
-@route('/sensor/<name>')
-def sensor_update(name):
-    logger.info('adding or updating sensor data of: %s', name)
+@route('/sensor/upsert')
+def sensor_update():
+
+    sensor_id = request.query.id
+
+    logger.info('adding or updating sensor data of: %s', sensor_id)
 
     response.content_type = content_type
+    name = id_mapping.resolve_name(sensor_id)
     input_lux = request.query.lux
     lux = int(input_lux) if len(input_lux) > 0 else None
     input_temp = request.query.temp
