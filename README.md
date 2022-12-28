@@ -6,6 +6,9 @@ The application persists sensor data to a json file. By default, the data is per
 and that same file is used by some tests. The default configuration file can be overriden by giving path to configuration
 file as a command line parameter when running the application.
 
+The application also has capability to map sensor id's to human-readable names. By default, empty mapping array is used
+from file [id_mappings.json](id_mappings.json) i.e. no mapping is done, but it can be overriden by giving path to mapping file.
+
 ## Requirements
 
 * Python 3.9
@@ -34,15 +37,16 @@ Deativate virtual environment: `deactivate`
 
 ### Run application with default configuration
 
-Uses [sensors.json](sensors.json) as configuration file.
+Uses [sensors.json](sensors.json) as sensors configuration file and [id_mappings.json](id_mappings.json) as id-name
+mapping configuration file.
 
 `python shelly_http_api.py`
 
-### Run application with custom configuration
+### Run application with custom configurations
 
-Uses the given parameter as a configuration file.
+Uses the first parameter as sensors configuration file and second as id-name mapping configuration.
 
-`python shelly_http_api.py configuration.json`
+`python shelly_http_api.py configuration.json id_mappings.json`
 
 ### Code organization
 
@@ -55,7 +59,7 @@ Uses the given parameter as a configuration file.
 
 ### Receive data
 
-URL: `/sensor/<sensor name>?<query parameters>`
+URL: `/sensor/upsert?<query parameters>`
 
 Query parameters
 * state: sensor state e.g. open/closed

@@ -50,7 +50,7 @@ def list_sensors():
 
 
 if __name__ == '__main__':
-    if len(sys.argv) > 2:
+    if len(sys.argv) > 3:
         print('Too many arguments!')
         sys.exit(0)
 
@@ -59,6 +59,11 @@ if __name__ == '__main__':
     if len(sys.argv) == 2:
         configurationFile = sys.argv[1]
         shelly = Shelly(configurationFile)
+
+    # Third argument is optional id mapping configuration file, otherwise the default is used
+    if len(sys.argv) == 3:
+        mappingFile = sys.argv[2]
+        id_mapping = IDMapping(mappingFile)
 
     try:
         run(host='0.0.0.0', port=5010, debug=True)
