@@ -3,6 +3,12 @@ from dataclasses import replace
 
 from sensor.shelly import Shelly, Sensor
 
+TWO_SENSORS_READINGS_FILE = 'test/two_sensors.json'
+
+NAME_KITCHEN = 'kitchen'
+
+NAME = 'name'
+
 
 class ShellyTestCase(unittest.TestCase):
     def test_list_has_no_sensors(self):
@@ -11,14 +17,14 @@ class ShellyTestCase(unittest.TestCase):
         self.assertEqual(sensors, list())
 
     def test_list_has_two_sensors(self):
-        shelly = Shelly('test/two_sensors.json')
+        shelly = Shelly(TWO_SENSORS_READINGS_FILE)
         sensors = shelly.list_sensors()
         self.assertEqual(len(sensors), 2)
 
     def test_list_has_kitchen_sensor(self):
-        shelly = Shelly('test/two_sensors.json')
+        shelly = Shelly(TWO_SENSORS_READINGS_FILE)
         sensors = shelly.list_sensors()
-        kitchen_sensors = list(filter(lambda sensor: sensor['name'] == 'kitchen', sensors))
+        kitchen_sensors = list(filter(lambda sensor: sensor[NAME] == NAME_KITCHEN, sensors))
         self.assertEqual(len(kitchen_sensors), 1)
 
         kitchen_sensor = Sensor(**kitchen_sensors[0])
@@ -27,9 +33,9 @@ class ShellyTestCase(unittest.TestCase):
         self.assertEqual(kitchen_sensor.temperature, 21.1)
 
     def test_update_kitchen_sensor_state(self):
-        shelly = Shelly('test/two_sensors.json')
+        shelly = Shelly(TWO_SENSORS_READINGS_FILE)
         sensors = shelly.list_sensors()
-        kitchen_sensors = list(filter(lambda sensor: sensor['name'] == 'kitchen', sensors))
+        kitchen_sensors = list(filter(lambda sensor: sensor[NAME] == NAME_KITCHEN, sensors))
         self.assertEqual(len(kitchen_sensors), 1)
 
         kitchen_sensor = Sensor(**kitchen_sensors[0])
@@ -39,7 +45,7 @@ class ShellyTestCase(unittest.TestCase):
         shelly.update_sensors_data(update_kitcher_sensor)
 
         updated_sensors = shelly.list_sensors()
-        updated_kitchen_sensors = list(filter(lambda sensor: sensor['name'] == 'kitchen', updated_sensors))
+        updated_kitchen_sensors = list(filter(lambda sensor: sensor[NAME] == NAME_KITCHEN, updated_sensors))
         self.assertEqual(len(updated_kitchen_sensors), 1)
         self.assertNotEqual(kitchen_sensor, updated_kitchen_sensors)
 
@@ -47,7 +53,7 @@ class ShellyTestCase(unittest.TestCase):
         self.assertEqual(updated_kitchen_sensor, update_kitcher_sensor)
 
     def test_add_new_sensor(self):
-        shelly = Shelly('test/two_sensors.json')
+        shelly = Shelly(TWO_SENSORS_READINGS_FILE)
         sensors = shelly.list_sensors()
 
         new_sensor = Sensor('test', 1, 'open', -12.3)
@@ -55,7 +61,7 @@ class ShellyTestCase(unittest.TestCase):
         new_sensors = shelly.list_sensors()
         self.assertEqual(len(new_sensors), len(sensors) + 1)
 
-        sensor_names = list(map(lambda sensor: sensor['name'], new_sensors))
+        sensor_names = list(map(lambda sensor: sensor[NAME], new_sensors))
         self.assertIn(new_sensor.name, sensor_names)
 
 
