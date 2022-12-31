@@ -62,9 +62,10 @@ Uses the first parameter as sensors configuration file and second as id-name map
 URL: `/sensor/upsert?<query parameters>`
 
 Query parameters
-* state: sensor state e.g. open/closed
+* state: optional sensor state e.g. open/closed
 * temp: temperature reading
-* lux: lux reading
+* lux: optional lux reading
+* flood: optional flood indicator as 0/1
 
 Response:
 ```json
