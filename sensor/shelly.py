@@ -1,13 +1,15 @@
 import json
 from dataclasses import dataclass, asdict
+from typing import Optional
 
 
 @dataclass
 class Sensor:
     name: str
-    lux: int
-    state: str
+    lux: Optional[int]
+    state: Optional[str]
     temperature: float
+    flood: Optional[bool]
 
 
 class Shelly:

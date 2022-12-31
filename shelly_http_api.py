@@ -28,13 +28,23 @@ def sensor_update():
     logger.info('adding or updating sensor data of: %s', sensor_id)
 
     response.content_type = content_type
+
     name = id_mapping.resolve_name(sensor_id)
+
     input_lux = request.query.lux
     lux = int(input_lux) if len(input_lux) > 0 else None
+
     input_temp = request.query.temp
     temperature = float(input_temp) if len(input_temp) > 0 else None
+
+    input_flood = request.query.flood
+    has_flood_property = len(input_flood) > 0
+    has_flood = has_flood_property and input_flood == '1'
+    flood = has_flood if has_flood_property else None
+
     state = request.query.state
-    sensor = Sensor(name, lux, state, temperature)
+
+    sensor = Sensor(name, lux, state, temperature, flood)
     shelly.update_sensors_data(sensor)
     shelly.write_sensor_data()
 

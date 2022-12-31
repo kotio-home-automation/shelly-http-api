@@ -21,7 +21,7 @@ class ShellyTestCase(unittest.TestCase):
         sensors = shelly.list_sensors()
         self.assertEqual(len(sensors), 2)
 
-    def test_list_has_kitchen_sensor(self):
+    def test_list_has_kitchen_door_sensor(self):
         shelly = Shelly(TWO_SENSORS_READINGS_FILE)
         sensors = shelly.list_sensors()
         kitchen_sensors = list(filter(lambda sensor: sensor[NAME] == NAME_KITCHEN, sensors))
@@ -31,6 +31,19 @@ class ShellyTestCase(unittest.TestCase):
         self.assertEqual(kitchen_sensor.lux, 0)
         self.assertEqual(kitchen_sensor.state, 'closed')
         self.assertEqual(kitchen_sensor.temperature, 21.1)
+        self.assertIsNone(kitchen_sensor.flood)
+
+    def test_list_has_foyer_flood_sensor(self):
+        shelly = Shelly(TWO_SENSORS_READINGS_FILE)
+        sensors = shelly.list_sensors()
+        foyer_sensors = list(filter(lambda sensor: sensor[NAME] == 'foyer', sensors))
+        self.assertEqual(len(foyer_sensors), 1)
+
+        foyer_sensor = Sensor(**foyer_sensors[0])
+        self.assertIsNone(foyer_sensor.lux)
+        self.assertIsNone(foyer_sensor.state)
+        self.assertEqual(foyer_sensor.temperature, 20.1)
+        self.assertFalse(foyer_sensor.flood)
 
     def test_update_kitchen_sensor_state(self):
         shelly = Shelly(TWO_SENSORS_READINGS_FILE)
@@ -56,7 +69,7 @@ class ShellyTestCase(unittest.TestCase):
         shelly = Shelly(TWO_SENSORS_READINGS_FILE)
         sensors = shelly.list_sensors()
 
-        new_sensor = Sensor('test', 1, 'open', -12.3)
+        new_sensor = Sensor('test', 1, 'open', -12.3, None)
         shelly.update_sensors_data(new_sensor)
         new_sensors = shelly.list_sensors()
         self.assertEqual(len(new_sensors), len(sensors) + 1)

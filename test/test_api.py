@@ -7,7 +7,7 @@ from shelly_http_api import sensor_update, list_sensors
 
 
 class MyTestCase(unittest.TestCase):
-    def test_kitchen_sensor_update(self):
+    def test_kitchen_door_sensor_update(self):
         lux = 1
         state = 'closed'
         temperature = 19.9
@@ -20,6 +20,7 @@ class MyTestCase(unittest.TestCase):
             self.assertEqual(sensor.lux, lux)
             self.assertEqual(sensor.state, state)
             self.assertEqual(sensor.temperature, temperature)
+            self.assertIsNone(sensor.flood)
 
     def test_list_sensors(self):
         sensors = json.loads(list_sensors())
