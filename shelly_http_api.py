@@ -72,6 +72,8 @@ if __name__ == '__main__':
 
     # Third argument is optional id mapping configuration file, otherwise the default is used
     if len(sys.argv) == 3:
+        shellyConfigurationFile = sys.argv[1]
+        shelly = Shelly(shellyConfigurationFile)
         mappingFile = sys.argv[2]
         id_mapping = IDMapping(mappingFile)
 
