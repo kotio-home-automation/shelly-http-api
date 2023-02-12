@@ -1,1 +1,1 @@
-[{"name": "foyer", "lux": 0, "state": "closed", "temperature": 20.1, "flood": null}, {"name": "kitchen", "lux": 1, "state": "closed", "temperature": 19.9, "flood": null}]
+[{"name": "foyer", "lux": 5, "state": "closed", "temperature": 20.1, "flood": null}, {"name": "kitchen", "lux": 10, "state": "closed", "temperature": 19.9, "flood": null}, {"name": "water boiler", "lux": null, "state": null, "temperature": 19.9, "flood": false}]

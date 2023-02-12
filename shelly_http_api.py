@@ -42,7 +42,8 @@ def sensor_update():
     has_flood = has_flood_property and input_flood == '1'
     flood = has_flood if has_flood_property else None
 
-    state = request.query.state
+    input_state = request.query.state
+    state = input_state if len(input_state) > 0 else None
 
     sensor = Sensor(name, lux, state, temperature, flood)
     shelly.update_sensors_data(sensor)
