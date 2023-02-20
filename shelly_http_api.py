@@ -57,6 +57,7 @@ def list_sensors():
 
     response.content_type = content_type
     shelly_sensors = shelly.list_sensors()
+
     return json.dumps(shelly_sensors)
 
 
@@ -81,4 +82,4 @@ if __name__ == '__main__':
     try:
         run(host='0.0.0.0', port=5010, debug=True)
     finally:
-        print('Exiting...')
+        log.info('Exiting...')
