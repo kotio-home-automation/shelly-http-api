@@ -6,6 +6,7 @@ from typing import Optional
 @dataclass
 class Sensor:
     name: str
+    time: float
     lux: Optional[int]
     state: Optional[str]
     temperature: float

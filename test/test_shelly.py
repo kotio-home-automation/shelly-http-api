@@ -9,6 +9,8 @@ NAME_KITCHEN = 'kitchen'
 
 NAME = 'name'
 
+EVENT_TIME = 1677761687.000000
+
 
 class ShellyTestCase(unittest.TestCase):
     def test_list_has_no_sensors(self):
@@ -69,7 +71,7 @@ class ShellyTestCase(unittest.TestCase):
         shelly = Shelly(TWO_SENSORS_READINGS_FILE)
         sensors = shelly.list_sensors()
 
-        new_sensor = Sensor('test', 1, 'open', -12.3, None)
+        new_sensor = Sensor('test', EVENT_TIME, 1, 'open', -12.3, None)
         shelly.update_sensors_data(new_sensor)
         new_sensors = shelly.list_sensors()
         self.assertEqual(len(new_sensors), len(sensors) + 1)

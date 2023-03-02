@@ -1,6 +1,7 @@
 [
   {
     "name": "kitchen",
+    "time": 1677761687.000000,
     "lux": 0,
     "state": "closed",
     "temperature": 21.1,
@@ -8,6 +9,7 @@
   },
   {
     "name": "foyer",
+    "time": 1677761687.000000,
     "lux": null,
     "state": null,
     "temperature": 20.1,

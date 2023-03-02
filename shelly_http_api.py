@@ -4,6 +4,7 @@ from bottle import route, request, run, response
 from dataclasses import asdict
 import json
 import logging
+import time
 
 from sensor.id_mapping import IDMapping
 from sensor.shelly import Sensor, Shelly
@@ -45,7 +46,7 @@ def sensor_update():
     input_state = request.query.state
     state = input_state if len(input_state) > 0 else None
 
-    sensor = Sensor(name, lux, state, temperature, flood)
+    sensor = Sensor(name, time.time(), lux, state, temperature, flood)
     shelly.update_sensors_data(sensor)
     shelly.write_sensor_data()
 
