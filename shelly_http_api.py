@@ -21,6 +21,21 @@ shelly = Shelly('sensors.json')
 id_mapping = IDMapping('id_mappings.json')
 
 
+def enable_cors(func):
+    def wrapper(*args, **kwargs):
+        response.set_header("Access-Control-Allow-Origin", "*")
+        response.set_header("Content-Type", "application/json")
+        response.set_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        response.set_header("Access-Control-Allow-Headers", "Access-Control-Allow-Origin, Content-Type")
+
+        # skip the function if it is not needed
+        if request.method == 'OPTIONS':
+            return
+
+        return func(*args, **kwargs)
+    return wrapper
+
+
 @route('/sensor/upsert')
 def sensor_update():
 
@@ -54,6 +69,7 @@ def sensor_update():
 
 
 @route('/sensor')
+@enable_cors
 def list_sensors():
 
     response.content_type = content_type
